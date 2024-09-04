@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        background: url("assets/cute-background.png") no-repeat center center
+          fixed;
+        background-size: cover;
+        overflow: hidden;
+      }
+
+      #cute-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      #btn-alert {
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        background-color: #ff6b6b;
+        font-size: 1.5em;
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        animation: bounce 2s infinite;
+      }
+
+      #btn-alert:hover {
+        transform: scale(1.1);
+        background-color: #ff4757;
+      }
+
+      #btn-alert:focus {
+        outline: #ff6b6b solid 3px;
+        outline-offset: 3px;
+      }
+
+      #confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1000;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @media (max-width: 576px) {
+        #btn-alert {
+          font-size: 1.2em;
+          padding: 10px 20px;
+        }
+
+        #cute-image {
+          width: 80%;
+        }
+      }
+
+      .swal2-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .swal2-content {
+        font-size: 1.2em;
+        margin-top: 10px;
+      }
+    </style>
+    <title>Happy Birthday Kawan!</title>
+  </head>
+  <body>
+    <img id="cute-image" src="assets/cute-image.gif" alt="Cute Image" />
+
+    <button id="btn-alert" onclick="munculinAlert()">Coba Klik</button>
+
+    <audio id="background-music" loop>
+      <source src="assets/ult.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <canvas id="confetti"></canvas>
+
+    <script>
+      async function munculinAlert() {
+        const music = document.getElementById("background-music");
+        music.play();
+
+        startConfetti();
+
+        // Function to simulate typing effect
+        function typeWriter(element, text, speed, callback) {
+          let i = 0;
+          element.innerHTML = ""; // Clear existing content
+          const intervalId = setInterval(() => {
+            if (i < text.length) {
+              element.innerHTML += text.charAt(i);
+              i++;
+            } else {
+              clearInterval(intervalId);
+              if (callback) callback(); // Call the callback function after typing is complete
+            }
+          }, speed);
+        }
+
+        // Show alert with typing effect
+        function showAlert(
+          title,
+          imageUrl,
+          imageWidth,
+          imageHeight,
+          imageAlt,
+          text = "",
+          background = "#ffffff",
+          backdrop = ""
+        ) {
+          return new Promise((resolve) => {
+            Swal.fire({
+              title: '<div id="title-text">${title}</div>',
+              html: '<div id="content-text">${text}</div>',
+              imageUrl: imageUrl,
+              imageWidth: imageWidth,
+              imageHeight: imageHeight,
+              imageAlt: imageAlt,
+              background: background,
+              backdrop: backdrop,
+              confirmButtonColor: "#ff66b2",
+              confirmButtonText: "Lanjutkan",
+              didOpen: () => {
+                const titleElement = document.getElementById("title-text");
+                const contentElement = document.getElementById("content-text");
+                if (titleElement) typeWriter(titleElement, title, 50);
+                if (contentElement) typeWriter(contentElement, text, 50);
+              },
+            }).then(resolve);
+          });
+        }
+
+        await showAlert(
+          "Hai Bah yang lawa, imut dan yang pastinye paling baekk!",
+          "assets/cute-gif1.gif",
+          150,
+          150,
+          "Cute GIF"
+        );
+        await showAlert(
+          "Cieeee.... Ulang tahun aa die, Selamat ulang tahun yooo... 🎉",
+          "assets/cute-gif2.gif",
+          150,
+          150,
+          "Cute GIF"
+        );
+        await showAlert(
+          "Happy Sweet Twentieth 20th!",
+          "assets/cute-cake.jpg",
+          300,
+          300,
+          "Gambar kue ulang tahun lucu",
+          "Semoga selalu full senyum yo bah jangan sedih lagi, maap bah dah banyak buat salah kat bah, bah orang de baek betul betul baek dan pastinye lawaaa hehehehe kan kan kan, jangan lupe solat bah, dan semangat magang!",
+          "#ffeced",
+          "rgba(255, 159, 243, 0.4) url('assets/cute-cat.gif') center top no-repeat"
+        );
+
+        await Swal.fire({
+          title: "Sukeeee atau Biase Aje Bahh?",
+          text: "Jawab dengan jujur yoo...",
+          imageUrl: "assets/cute.gif",
+          showDenyButton: true,
+          confirmButtonColor: "#ff66b2",
+          confirmButtonText: "Sukeee !",
+          denyButtonText: "Biase Aje",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Yeay!",
+              text: "Makasih yoo, semoga bah makin lawaaaaaaaaaa hehehehehehe! 🌈",
+              imageUrl: "assets/happy.gif",
+              imageWidth: 300,
+              imageHeight: 300,
+              imageAlt: "Gambar karakter bahagia",
+              background: "#fff8e1",
+              confirmButtonColor: "#ff66b2",
+              confirmButtonText: "Lanjutkan",
+            });
+          } else {
+            Swal.fire({
+              title: "Oh tidakk...",
+              text: "Yah maap yo, semoga ke depannya lebih suke yooo... 😢",
+              imageUrl: "assets/sad-cute.gif",
+              imageWidth: 300,
+              imageHeight: 300,
+              imageAlt: "Gambar karakter sedih",
+              background: "#ffe6e6",
+              confirmButtonColor: "#ff66b2",
+              confirmButtonText: "Lanjutkan",
+            });
+          }
+        });
+
+        stopConfetti();
+        music.pause();
+        music.currentTime = 0; // Mengembalikan ke awal
+      }
+
+      function startConfetti() {
+        const confettiCanvas = document.getElementById("confetti");
+        const confettiCtx = confettiCanvas.getContext("2d");
+        const confettiPieces = [];
+        const colors = [
+          "#ff6b6b",
+          "#ffd166",
+          "#06d6a0",
+          "#118ab2",
+          "#ef476f",
+          "#ff9f1c",
+        ];
+
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+
+        function createConfettiPiece() {
+          return {
+            x: Math.random() * confettiCanvas.width,
+            y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+            size: Math.random() * 10 + 5,
+            speed: Math.random() * 5 + 1,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            rotation: Math.random() * 360,
+            rotationSpeed: Math.random() * 5 + 1,
+          };
+        }
+
+        for (let i = 0; i < 300; i++) {
+          confettiPieces.push(createConfettiPiece());
+        }
+
+        function drawConfetti() {
+          confettiCtx.clearRect(
+            0,
+            0,
+            confettiCanvas.width,
+            confettiCanvas.height
+          );
+
+          confettiPieces.forEach((piece) => {
+            confettiCtx.save();
+            confettiCtx.translate(piece.x, piece.y);
+            confettiCtx.rotate((piece.rotation * Math.PI) / 180);
+            confettiCtx.fillStyle = piece.color;
+            confettiCtx.fillRect(
+              -piece.size / 2,
+              -piece.size / 2,
+              piece.size,
+              piece.size
+            );
+            confettiCtx.restore();
+
+            piece.y += piece.speed;
+            piece.rotation += piece.rotationSpeed;
+
+            if (piece.y > confettiCanvas.height) {
+              piece.y = -piece.size;
+              piece.x = Math.random() * confettiCanvas.width;
+            }
+          });
+
+          requestAnimationFrame(drawConfetti);
+        }
+
+        drawConfetti();
+      }
+
+      function stopConfetti() {
+        const confettiCanvas = document.getElementById("confetti");
+        const confettiCtx = confettiCanvas.getContext("2d");
+        confettiCtx.clearRect(
+          0,
+          0,
+          confettiCanvas.width,
+          confettiCanvas.height
+        );
+      }
+    </script>
+  </body>
+</html>
